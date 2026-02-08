@@ -1,0 +1,38 @@
+[
+  {
+    "detalleOrdenId": "1",
+    "ordenId": "1",
+    "productoId": "1",
+    "cantidad": 2,
+    "subtotal": 2400,
+    "impuesto": 384,
+    "total": 2784
+  },
+  {
+    "detalleOrdenId": "2",
+    "ordenId": "1",
+    "productoId": "2",
+    "cantidad": 3,
+    "subtotal": 75,
+    "impuesto": 12,
+    "total": 87
+  },
+  {
+    "detalleOrdenId": "3",
+    "ordenId": "2",
+    "productoId": "3",
+    "cantidad": 1,
+    "subtotal": 450,
+    "impuesto": 72,
+    "total": 522
+  },
+  {
+    "detalleOrdenId": "4",
+    "ordenId": "2",
+    "productoId": "1",
+    "cantidad": 1,
+    "subtotal": 1200,
+    "impuesto": 192,
+    "total": 1392
+  }
+]

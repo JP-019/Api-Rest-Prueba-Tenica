@@ -1,1 +1,18 @@
-[]
+[[{
+  "nombre": "Laptop Dell",
+  "precio": 1200,
+  "exitencia": 5
+},
+{
+  "nombre": "Smartphone Samsung",
+  "precio": 800,
+  "exitencia": 10
+},
+{
+  "nombre": "Tablet Apple",
+  "precio": 600,
+  "exitencia": 7
+}
+
+]
+]

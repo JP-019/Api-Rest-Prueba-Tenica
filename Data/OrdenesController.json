@@ -1,1 +1,7 @@
-[]
+[{
+  "clienteId": "1",
+  "subtotal": 1200,
+  "impuesto": 192,
+  "total": 1392
+}
+]
