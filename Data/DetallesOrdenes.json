@@ -43,5 +43,14 @@
     "impuesto": 1280,
     "subtotal": 8000,
     "total": 9280
+  },
+  {
+    "detalleOrdenId": "DET-1770572114404-1atvkzilc",
+    "ordenId": "2",
+    "productoId": "1",
+    "cantidad": 1,
+    "impuesto": 192,
+    "subtotal": 1200,
+    "total": 1392
   }
 ]

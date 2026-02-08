@@ -1,64 +1,107 @@
-# 🧪 Ejemplos para Testear en Thunder Client
+# 🧪 Ejemplos para Thunder Client (actualizado)
 
-Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Client.
+Estos ejemplos están alineados con los validadores y modelos del proyecto (los `id` deben enviarse como strings cuando el validador lo exige).
+
+Base URL: `http://localhost:3000/api`
 
 ---
 
 ## 🧑 CLIENTES
 
 ### POST - Crear Cliente
-**URL:** `http://localhost:3000/api/clientes`
+URL: `/clientes`
 
-**Body (JSON):**
+Body (JSON) (requerido según `ClienteValidator`):
 ```json
-{  
-  "clienteId": 1,
+{
+  "clienteId": "1",
   "nombre": "Juan Pérez",
   "identidad": "123456789"
+}
+```
+
+Ejemplo curl:
+```bash
+curl -X POST http://localhost:3000/api/clientes \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId":"1","nombre":"Juan Pérez","identidad":"123456789"}'
+```
+
+Respuesta exitosa (201):
+```json
+{
+  "success": true,
+  "data": {
+    "clienteId": "1",
+    "nombre": "Juan Pérez",
+    "identidad": "123456789"
+  }
 }
 ```
 
 ---
 
 ### GET - Obtener Todos los Clientes
-**URL:** `http://localhost:3000/api/clientes`
+URL: `/clientes`
 
+Method: GET
+
+curl:
+```bash
+curl http://localhost:3000/api/clientes
+```
 
 ---
 
 ### GET - Obtener Cliente por ID
-**URL:** `http://localhost:3000/api/clientes/1`
+URL: `/clientes/:id` (ej: `/clientes/1`)
 
+curl:
+```bash
+curl http://localhost:3000/api/clientes/1
+```
 
 ---
 
 ### PUT - Actualizar Cliente
-**URL:** `http://localhost:3000/api/clientes/1`
+URL: `/clientes/1`
 
-**Body (JSON):**
+Body (JSON):
 ```json
 {
-  
+  "clienteId": "1",
   "nombre": "Juan Carlos Pérez",
   "identidad": "987654321"
 }
 ```
 
+curl:
+```bash
+curl -X PUT http://localhost:3000/api/clientes/1 \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId":"1","nombre":"Juan Carlos Pérez","identidad":"987654321"}'
+```
+
 ---
 
 ### DELETE - Eliminar Cliente
-**URL:** `http://localhost:3000/api/clientes/1`
+URL: `/clientes/1`
 
-**Method:** DELETE (sin body)
+curl:
+```bash
+curl -X DELETE http://localhost:3000/api/clientes/1
+```
 
 ---
 
 ## 📦 PRODUCTOS
 
-### POST - Crear Producto ✅ FUNCIONA
-**URL:** `http://localhost:3000/api/productos`
+Los validadores piden `productoId` string en la creación.
 
-**Body (JSON):**
+### POST - Crear Producto
+URL: `/productos`
+
+Body (JSON):
 ```json
 {
   "productoId": "4",
@@ -68,7 +111,14 @@ Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Clien
 }
 ```
 
-**Respuesta Exitosa (201):**
+curl:
+```bash
+curl -X POST http://localhost:3000/api/productos \
+  -H "Content-Type: application/json" \
+  -d '{"productoId":"4","nombre":"Mouse Logitech","precio":25,"exitencia":50}'
+```
+
+Respuesta ejemplo (201):
 ```json
 {
   "success": true,
@@ -83,135 +133,179 @@ Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Clien
 
 ---
 
-### POST - Crear Otro Producto ✅ FUNCIONA
-**URL:** `http://localhost:3000/api/productos`
+### GET - Obtener Todos los Productos
+URL: `/productos`
 
-**Body (JSON):**
+curl:
+```bash
+curl http://localhost:3000/api/productos
+```
+
+---
+
+### GET - Obtener Producto por ID
+URL: `/productos/:id` (ej: `/productos/2`)
+
+curl:
+```bash
+curl http://localhost:3000/api/productos/2
+```
+
+---
+
+### PUT - Actualizar Producto
+URL: `/productos/2`
+
+Body (JSON):
 ```json
 {
-  "productoId": "5",
-  "nombre": "Monitor LG 27\"",
-  "precio": 350,
-  "exitencia": 8
+  "productoId": "2",
+  "nombre": "Smartphone Samsung S",
+  "precio": 820,
+  "exitencia": 9
 }
 ```
 
-**Respuesta Exitosa (201):**
+curl:
+```bash
+curl -X PUT http://localhost:3000/api/productos/2 \
+  -H "Content-Type: application/json" \
+  -d '{"productoId":"2","nombre":"Smartphone Samsung S","precio":820,"exitencia":9}'
+```
+
+---
+
+### DELETE - Eliminar Producto
+URL: `/productos/2`
+
+curl:
+```bash
+curl -X DELETE http://localhost:3000/api/productos/2
+```
+
+---
+
+## 📋 ÓRDENES
+
+> Nota: el validador de órdenes (`OrdenValidator`) exige `ordenId` y `clienteId` como strings al crear/validar.
+
+### POST - Crear Orden
+URL: `/ordenes`
+
+Body (JSON):
+```json
+{
+  "ordenId": "2",
+  "clienteId": "2",
+  "subtotal": 800,
+  "impuesto": 128,
+  "total": 928
+}
+```
+
+curl:
+```bash
+curl -X POST http://localhost:3000/api/ordenes \
+  -H "Content-Type: application/json" \
+  -d '{"ordenId":"2","clienteId":"2","subtotal":800,"impuesto":128,"total":928}'
+```
+
+Respuesta ejemplo (201):
 ```json
 {
   "success": true,
   "data": {
-    "productoId": "5",
-    "nombre": "Monitor LG 27\"",
-    "precio": 350,
-    "exitencia": 8
+    "ordenId": "2",
+    "clienteId": "2",
+    "subtotal": 800,
+    "impuesto": 128,
+    "total": 928
   }
 }
 ```
 
 ---
 
-### GET - Obtener Todos los Productos
-**URL:** `http://localhost:3000/api/productos`
-
-**Method:** GET (sin body)
-
----
-
-### GET - Obtener Producto por ID
-**URL:** `http://localhost:3000/api/productos/1`
-
-**Method:** GET (sin body)
-
----
-
-### PUT - Actualizar Producto
-**URL:** `http://localhost:3000/api/productos/1`
-
-**Body (JSON):**
-```json
-{
-  "nombre": "Laptop HP",
-  "precio": 1100,
-  "exitencia": 8
-}
-```
-
----
-
-### DELETE - Eliminar Producto
-**URL:** `http://localhost:3000/api/productos/1`
-
-**Method:** DELETE (sin body)
-
----
-
-## 📋 ÓRDENES
-
-### POST - Crear Orden
-**URL:** `http://localhost:3000/api/ordenes`
-
-**Body (JSON):**
-```json
-{
-  "clienteId": "1",
-  "subtotal": 1200,
-  "impuesto": 192,
-  "total": 1392
-}
-```
-
----
-
 ### GET - Obtener Todas las Órdenes
-**URL:** `http://localhost:3000/api/ordenes`
+URL: `/ordenes`
 
-**Method:** GET (sin body)
+curl:
+```bash
+curl http://localhost:3000/api/ordenes
+```
 
 ---
 
 ### GET - Obtener Orden por ID
-**URL:** `http://localhost:3000/api/ordenes/1`
+URL: `/ordenes/:id` (ej: `/ordenes/2`)
 
-**Method:** GET (sin body)
+curl:
+```bash
+curl http://localhost:3000/api/ordenes/2
+```
 
 ---
 
 ### PUT - Actualizar Orden
-**URL:** `http://localhost:3000/api/ordenes/1`
+URL: `/ordenes/2`
 
-**Body (JSON):**
+Body (JSON):
 ```json
 {
-  "clienteId": "1",
-  "subtotal": 1500,
-  "impuesto": 240,
-  "total": 1740
+  "ordenId": "2",
+  "clienteId": "2",
+  "subtotal": 1000,
+  "impuesto": 160,
+  "total": 1160
 }
+```
+
+curl:
+```bash
+curl -X PUT http://localhost:3000/api/ordenes/2 \
+  -H "Content-Type: application/json" \
+  -d '{"ordenId":"2","clienteId":"2","subtotal":1000,"impuesto":160,"total":1160}'
 ```
 
 ---
 
 ### DELETE - Eliminar Orden
-**URL:** `http://localhost:3000/api/ordenes/1`
+URL: `/ordenes/2`
 
-**Method:** DELETE (sin body)
+curl:
+```bash
+curl -X DELETE http://localhost:3000/api/ordenes/2
+```
 
 ---
 
 ## 🔗 DETALLES DE ÓRDENES
 
-### POST - Agregar Producto a Orden ✅ FUNCIONA
-**URL:** `http://localhost:3000/api/ordenes/2/productos/2`
+Rutas principales (según `detalles.routes.js`):
+- POST `/ordenes/:ordenId/productos/:productoId` - Agregar producto a orden (Body: `{ cantidad }`)
+- GET `/ordenes/:ordenId/detalles` - Ver detalles por orden
+- PUT `/detalles/:detalleId` - Actualizar cantidad (Body: `{ cantidad }`)
+- DELETE `/detalles/:detalleId` - Remover producto de la orden
+- GET `/detalles` - Ver todos los detalles (admin)
 
-**Body (JSON):**
+### POST - Agregar producto a orden
+URL ejemplo: `/ordenes/2/productos/2`
+
+Body (JSON):
 ```json
 {
   "cantidad": 2
 }
 ```
 
-**Respuesta Exitosa (201):**
+curl:
+```bash
+curl -X POST http://localhost:3000/api/ordenes/2/productos/2 \
+  -H "Content-Type: application/json" \
+  -d '{"cantidad":2}'
+```
+
+Respuesta ejemplo (201):
 ```json
 {
   "success": true,
@@ -229,97 +323,81 @@ Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Clien
 
 ---
 
-### POST - Agregar Otro Producto a Orden ✅ FUNCIONA
-**URL:** `http://localhost:3000/api/ordenes/2/productos/3`
+### GET - Ver detalles de una orden
+URL: `/ordenes/2/detalles`
 
-**Body (JSON):**
-```json
-{
-  "cantidad": 1
-}
-```
-
-**Respuesta Exitosa (201):**
-```json
-{
-  "success": true,
-  "data": {
-    "detalleOrdenId": "DET-1707387645456-def456uvw",
-    "ordenId": "2",
-    "productoId": "3",
-    "cantidad": 1,
-    "subtotal": 600,
-    "impuesto": 96,
-    "total": 696
-  }
-}
+curl:
+```bash
+curl http://localhost:3000/api/ordenes/2/detalles
 ```
 
 ---
 
-### GET - Ver Detalles de una Orden
-**URL:** `http://localhost:3000/api/ordenes/1/detalles`
+### PUT - Actualizar cantidad en detalle
+URL ejemplo: `/detalles/:detalleId`
 
-**Method:** GET (sin body)
-
----
-
-### PUT - Actualizar Cantidad en Detalle
-**URL:** `http://localhost:3000/api/detalles/1`
-
-**Body (JSON):**
+Body (JSON):
 ```json
 {
   "cantidad": 5
 }
 ```
 
----
-
-### DELETE - Remover Producto de Orden
-**URL:** `http://localhost:3000/api/detalles/1`
-
-**Method:** DELETE (sin body)
-
----
-
-### GET - Ver Todos los Detalles (Admin)
-**URL:** `http://localhost:3000/api/detalles`
-
-**Method:** GET (sin body)
+curl:
+```bash
+curl -X PUT http://localhost:3000/api/detalles/DET-... \
+  -H "Content-Type: application/json" \
+  -d '{"cantidad":5}'
+```
 
 ---
 
-## 📋 Orden de Prueba Recomendada
+### DELETE - Remover producto de orden
+URL ejemplo: `/detalles/DET-...`
 
-Sigue este orden para un flujo completo:
-
-1. **POST `/api/clientes`** - Crear un cliente
-2. **POST `/api/productos`** - Crear producto 1
-3. **POST `/api/productos`** - Crear producto 2
-4. **POST `/api/ordenes`** - Crear una orden
-5. **POST `/api/ordenes/1/productos/1`** - Agregar producto a orden (cantidad: 2)
-6. **POST `/api/ordenes/1/productos/2`** - Agregar otro producto (cantidad: 3)
-7. **GET `/api/ordenes/1/detalles`** - Ver detalles de la orden
-8. **PUT `/api/detalles/1`** - Cambiar cantidad en detalle
-9. **GET `/api/detalles`** - Ver todos los detalles
+curl:
+```bash
+curl -X DELETE http://localhost:3000/api/detalles/DET-...
+```
 
 ---
 
-## 🔍 Tips para Thunder Client
+## 🔁 Flujo de prueba recomendado (comandos curl)
 
-- Asegúrate de tener el servidor corriendo: `npm run start`
-- Selecciona **POST**, **GET**, **PUT** o **DELETE** según corresponda
-- El **Content-Type** debe ser `application/json`
-- Copia el URL exacto en el campo URL
-- Pega el JSON en la pestaña **Body**
-- Presiona **Send** para ejecutar
+1) Crear cliente
+```bash
+curl -X POST http://localhost:3000/api/clientes -H "Content-Type: application/json" -d '{"clienteId":"10","nombre":"Prueba","identidad":"000111222"}'
+```
+
+2) Crear dos productos
+```bash
+curl -X POST http://localhost:3000/api/productos -H "Content-Type: application/json" -d '{"productoId":"10","nombre":"Producto A","precio":100,"exitencia":20}'
+curl -X POST http://localhost:3000/api/productos -H "Content-Type: application/json" -d '{"productoId":"11","nombre":"Producto B","precio":50,"exitencia":30}'
+```
+
+3) Crear orden
+```bash
+curl -X POST http://localhost:3000/api/ordenes -H "Content-Type: application/json" -d '{"ordenId":"10","clienteId":"10","subtotal":200,"impuesto":32,"total":232}'
+```
+
+4) Agregar productos a la orden
+```bash
+curl -X POST http://localhost:3000/api/ordenes/10/productos/10 -H "Content-Type: application/json" -d '{"cantidad":1}'
+curl -X POST http://localhost:3000/api/ordenes/10/productos/11 -H "Content-Type: application/json" -d '{"cantidad":2}'
+```
+
+5) Ver detalles
+```bash
+curl http://localhost:3000/api/ordenes/10/detalles
+```
 
 ---
 
-## 📝 Notas Importantes
+## 🔍 Tips y notas
+- Todos los `id` que validadores exigen como `string` deben enviarse como cadena.
+- Si prefieres que los IDs se generen automáticamente, puedo añadir generación de IDs en los controladores (`UUID` o esquema `DET-...`).
+- Asegúrate de tener el servidor corriendo: `npm run start` o `node index.js`.
 
-- Los IDs se generan automáticamente en las respuestas
-- El impuesto se calcula al **16%** automáticamente
-- Asegúrate de que los IDs existan antes de actualizar o eliminar
-- Para referenciar clientes, productos u órdenes, usa los IDs generados
+---
+
+**Fin del archivo de ejemplos.**
