@@ -52,5 +52,23 @@
     "impuesto": 192,
     "subtotal": 1200,
     "total": 1392
+  },
+  {
+    "detalleOrdenId": "DET-1770573376923-v47ed1bzw",
+    "ordenId": "2",
+    "productoId": "2",
+    "cantidad": 1,
+    "impuesto": 128,
+    "subtotal": 800,
+    "total": 928
+  },
+  {
+    "detalleOrdenId": "DET-1770573990333-syaxfq0pm",
+    "ordenId": "2",
+    "productoId": "2",
+    "cantidad": 1,
+    "impuesto": 120,
+    "subtotal": 800,
+    "total": 920
   }
 ]

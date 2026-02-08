@@ -16,6 +16,13 @@
   {
     "ordenId": "2",
     "clienteId": "2",
+    "impuesto": 1976,
+    "subtotal": 12400,
+    "total": 14376
+  },
+  {
+    "ordenId": "2",
+    "clienteId": "5",
     "impuesto": 192,
     "subtotal": 1200,
     "total": 1392
