@@ -33,7 +33,7 @@ class ActualizarDetalle {
 
       // Recalcular totales
       const subtotal = producto.precio * nuevaCantidad;
-      const impuesto = subtotal * 0.16;
+      const impuesto = subtotal * 0.15;
       const total = subtotal + impuesto;
 
       detalles[indiceDetalle] = new DetalleOrden({

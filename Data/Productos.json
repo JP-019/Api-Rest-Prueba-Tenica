@@ -3,7 +3,7 @@
     "productoId": "1",
     "nombre": "Laptop Dell",
     "precio": 1200,
-    "exitencia": 5
+    "exitencia": 15
   },
   {
     "productoId": "2",
@@ -28,11 +28,5 @@
     "nombre": "Monitor LG 27\"",
     "precio": 350,
     "exitencia": 8
-  },
-  {
-    "productoId": "6",
-    "nombre": "Mouse Logitech",
-    "precio": 25,
-    "exitencia": 50
   }
 ]

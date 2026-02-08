@@ -160,9 +160,9 @@ Body (JSON):
 ```json
 {
   "productoId": "2",
-  "nombre": "Smartphone Samsung S",
-  "precio": 820,
-  "exitencia": 9
+  "nombre": "Smartphone Samsung S25",
+  "precio": 850,
+  "exitencia": 8
 }
 ```
 
@@ -170,7 +170,20 @@ curl:
 ```bash
 curl -X PUT http://localhost:3000/api/productos/2 \
   -H "Content-Type: application/json" \
-  -d '{"productoId":"2","nombre":"Smartphone Samsung S","precio":820,"exitencia":9}'
+  -d '{"productoId":"2","nombre":"Smartphone Samsung S25","precio":850,"exitencia":8}'
+```
+
+Respuesta ejemplo (200):
+```json
+{
+  "success": true,
+  "data": {
+    "productoId": "2",
+    "nombre": "Smartphone Samsung S25",
+    "precio": 850,
+    "exitencia": 8
+  }
+}
 ```
 
 ---
@@ -183,11 +196,24 @@ curl:
 curl -X DELETE http://localhost:3000/api/productos/2
 ```
 
+Respuesta ejemplo (200):
+```json
+{
+  "success": true,
+  "message": "Producto eliminado"
+}
+```
+
+**⚠️ Considerar:**
+- Si el producto está presente en detalles de órdenes, se ignora (sin eliminación en cascada)
+- Verifica primero si el producto está en uso
+
 ---
 
 ## 📋 ÓRDENES
 
 > Nota: el validador de órdenes (`OrdenValidator`) exige `ordenId` y `clienteId` como strings al crear/validar.
+> **Impuesto:** Se calcula al **15%** automáticamente cuando se agregan productos.
 
 ### POST - Crear Orden
 URL: `/ordenes`
@@ -249,14 +275,18 @@ curl http://localhost:3000/api/ordenes/2
 ### PUT - Actualizar Orden
 URL: `/ordenes/2`
 
+⚠️ **IMPORTANTE:** No actualizar directamente la orden. Los totales se recalculan automáticamente al agregar/actualizar/eliminar detalles.
+
+Si necesitas cambiar el cliente, usa:
+
 Body (JSON):
 ```json
 {
   "ordenId": "2",
-  "clienteId": "2",
-  "subtotal": 1000,
-  "impuesto": 160,
-  "total": 1160
+  "clienteId": "3",
+  "subtotal": 0,
+  "impuesto": 0,
+  "total": 0
 }
 ```
 
@@ -264,7 +294,21 @@ curl:
 ```bash
 curl -X PUT http://localhost:3000/api/ordenes/2 \
   -H "Content-Type: application/json" \
-  -d '{"ordenId":"2","clienteId":"2","subtotal":1000,"impuesto":160,"total":1160}'
+  -d '{"ordenId":"2","clienteId":"3","subtotal":0,"impuesto":0,"total":0}'
+```
+
+Respuesta ejemplo (200):
+```json
+{
+  "success": true,
+  "data": {
+    "ordenId": "2",
+    "clienteId": "3",
+    "subtotal": 0,
+    "impuesto": 0,
+    "total": 0
+  }
+}
 ```
 
 ---
@@ -276,6 +320,19 @@ curl:
 ```bash
 curl -X DELETE http://localhost:3000/api/ordenes/2
 ```
+
+Respuesta ejemplo (200):
+```json
+{
+  "success": true,
+  "message": "Orden eliminada"
+}
+```
+
+**⚠️ IMPORTANTE:**
+- Al eliminar la orden, los detalles permanecen en `DetallesOrdenes.json` (sin eliminación en cascada)
+- Considera eliminar manualmente los detalles si es necesario
+- Las existencias del producto NO se restauran
 
 ---
 
@@ -305,7 +362,7 @@ curl -X POST http://localhost:3000/api/ordenes/2/productos/2 \
   -d '{"cantidad":2}'
 ```
 
-Respuesta ejemplo (201):
+Respuesta ejemplo (201) - Precio producto $800 × 2 cantidad = $1600 + 15% = $1840:
 ```json
 {
   "success": true,
@@ -315,11 +372,13 @@ Respuesta ejemplo (201):
     "productoId": "2",
     "cantidad": 2,
     "subtotal": 1600,
-    "impuesto": 256,
-    "total": 1856
+    "impuesto": 240,
+    "total": 1840
   }
 }
 ```
+
+**Nota:** La orden se actualiza automáticamente con los nuevos totales
 
 ---
 
@@ -334,69 +393,178 @@ curl http://localhost:3000/api/ordenes/2/detalles
 ---
 
 ### PUT - Actualizar cantidad en detalle
-URL ejemplo: `/detalles/:detalleId`
+URL ejemplo: `/detalles/DET-1707387645123-abc123xyz`
 
 Body (JSON):
 ```json
 {
-  "cantidad": 5
+  "cantidad": 3
 }
 ```
 
 curl:
 ```bash
-curl -X PUT http://localhost:3000/api/detalles/DET-... \
+curl -X PUT http://localhost:3000/api/detalles/DET-1707387645123-abc123xyz \
   -H "Content-Type: application/json" \
-  -d '{"cantidad":5}'
+  -d '{"cantidad":3}'
 ```
+
+Respuesta ejemplo (200) - Nueva cantidad 3 × $800 = $2400 + 15% = $2760:
+```json
+{
+  "success": true,
+  "data": {
+    "detalleOrdenId": "DET-1707387645123-abc123xyz",
+    "ordenId": "2",
+    "productoId": "2",
+    "cantidad": 3,
+    "subtotal": 2400,
+    "impuesto": 360,
+    "total": 2760
+  }
+}
+```
+
+**⚠️ IMPORTANTE:**
+- Se valida que haya existencia suficiente
+- La orden se recalcula automáticamente
 
 ---
 
 ### DELETE - Remover producto de orden
-URL ejemplo: `/detalles/DET-...`
+URL ejemplo: `/detalles/DET-1707387645123-abc123xyz`
 
 curl:
 ```bash
-curl -X DELETE http://localhost:3000/api/detalles/DET-...
+curl -X DELETE http://localhost:3000/api/detalles/DET-1707387645123-abc123xyz
 ```
+
+Respuesta ejemplo (200):
+```json
+{
+  "success": true,
+  "message": "Producto removido de la orden"
+}
+```
+
+**⚠️ IMPORTANTE:**
+- El detalle se elimina de `DetallesOrdenes.json`
+- Las existencias del producto NO se restauran
+- La orden se recalcula automáticamente (se eliminan los totales del detalle)
 
 ---
 
 ## 🔁 Flujo de prueba recomendado (comandos curl)
 
-1) Crear cliente
+### Paso 1: Crear cliente
 ```bash
-curl -X POST http://localhost:3000/api/clientes -H "Content-Type: application/json" -d '{"clienteId":"10","nombre":"Prueba","identidad":"000111222"}'
+curl -X POST http://localhost:3000/api/clientes \
+  -H "Content-Type: application/json" \
+  -d '{"clienteId":"TEST-001","nombre":"Juan Pérez","identidad":"123456789"}'
 ```
 
-2) Crear dos productos
+### Paso 2: Crear dos productos
 ```bash
-curl -X POST http://localhost:3000/api/productos -H "Content-Type: application/json" -d '{"productoId":"10","nombre":"Producto A","precio":100,"exitencia":20}'
-curl -X POST http://localhost:3000/api/productos -H "Content-Type: application/json" -d '{"productoId":"11","nombre":"Producto B","precio":50,"exitencia":30}'
+curl -X POST http://localhost:3000/api/productos \
+  -H "Content-Type: application/json" \
+  -d '{"productoId":"PROD-001","nombre":"Laptop Dell","precio":1200,"exitencia":5}'
+
+curl -X POST http://localhost:3000/api/productos \
+  -H "Content-Type: application/json" \
+  -d '{"productoId":"PROD-002","nombre":"Mouse","precio":50,"exitencia":20}'
 ```
 
-3) Crear orden
+### Paso 3: Crear orden vacía
 ```bash
-curl -X POST http://localhost:3000/api/ordenes -H "Content-Type: application/json" -d '{"ordenId":"10","clienteId":"10","subtotal":200,"impuesto":32,"total":232}'
+curl -X POST http://localhost:3000/api/ordenes \
+  -H "Content-Type: application/json" \
+  -d '{"ordenId":"ORD-001","clienteId":"TEST-001","subtotal":0,"impuesto":0,"total":0}'
 ```
 
-4) Agregar productos a la orden
+### Paso 4: Agregar productos a la orden
+**Producto 1: 1 Laptop × $1200 = $1200 + 15% impuesto = $1380**
 ```bash
-curl -X POST http://localhost:3000/api/ordenes/10/productos/10 -H "Content-Type: application/json" -d '{"cantidad":1}'
-curl -X POST http://localhost:3000/api/ordenes/10/productos/11 -H "Content-Type: application/json" -d '{"cantidad":2}'
+curl -X POST http://localhost:3000/api/ordenes/ORD-001/productos/PROD-001 \
+  -H "Content-Type: application/json" \
+  -d '{"cantidad":1}'
 ```
 
-5) Ver detalles
+**Producto 2: 2 Mouse × $50c/u = $100 + 15% impuesto = $115**
 ```bash
-curl http://localhost:3000/api/ordenes/10/detalles
+curl -X POST http://localhost:3000/api/ordenes/ORD-001/productos/PROD-002 \
+  -H "Content-Type: application/json" \
+  -d '{"cantidad":2}'
 ```
+
+### Paso 5: Ver detalles de la orden
+```bash
+curl http://localhost:3000/api/ordenes/ORD-001/detalles
+```
+
+**Resultado esperado:** Subtotal: $1300, Impuesto: $195, Total: $1495
+
+### Paso 6: Actualizar cantidad de un producto
+**Cambiar los 2 Mouse a 4 Mouse: 4 × $50 = $200 + 15% = $230**
+
+Primero obtener el detalleOrdenId de PROD-002 del paso 5, luego:
+```bash
+curl -X PUT http://localhost:3000/api/detalles/DET-XXXXX \
+  -H "Content-Type: application/json" \
+  -d '{"cantidad":4}'
+```
+
+### Paso 7: Ver productos en existencia (verificar decremento)
+```bash
+curl http://localhost:3000/api/productos/PROD-002
+```
+
+**Resultado esperado:** existencia: 14 (20 - 2 del paso 4b - 4 del paso 6)
+
+### Paso 8: Eliminar un producto de la orden
+```bash
+curl -X DELETE http://localhost:3000/api/detalles/DET-XXXXX
+```
+
+### Paso 9: Verificar que la orden se recalculó
+```bash
+curl http://localhost:3000/api/ordenes/ORD-001
+```
+
+**Resultado esperado:** Solo queda Laptop: Subtotal: $1200, Impuesto: $180, Total: $1380
 
 ---
 
 ## 🔍 Tips y notas
-- Todos los `id` que validadores exigen como `string` deben enviarse como cadena.
-- Si prefieres que los IDs se generen automáticamente, puedo añadir generación de IDs en los controladores (`UUID` o esquema `DET-...`).
-- Asegúrate de tener el servidor corriendo: `npm run start` o `node index.js`.
+
+### IDs
+- Todos los `id` que validadores exigen como `string` deben enviarse como cadena
+- Formatos sugeridos: `CLI-001`, `PROD-001`, `ORD-001`, `DET-...` (auto-generado)
+
+### Impuestos
+- **Siempre 15%** en cálculos (Subtotal × 0.15)
+- Se calcula automáticamente al agregar/actualizar detalles
+- NO actualizar manualmente en la orden
+
+### Existencias
+- Se decrementan al agregar producto a orden
+- **NO se restauran** al remover o eliminar detalle
+- Validar previamente que hay stock suficiente
+
+### Cascadas
+- **Eliminar Orden:** Detalles permanecen orfandos (sin cascada)
+- **Eliminar Producto:** Si está en detalles, permanece la referencia
+- **Eliminar Detalle:** Orden se recalcula automáticamente
+
+### Errores comunes
+- ❌ Enviar `cantidad` como string: `{"cantidad": "5"}` → Error
+- ❌ No validar stock antes de agregar producto
+- ❌ Actualizar orden manualmente en lugar de agregar detalles
+- ✅ Usar Postman/Thunder Client para ver estructuras de respuesta
+
+### Servidor
+- Asegúrate de tener el servidor corriendo: `npm run start` o `node index.js`
+- Base URL: `http://localhost:3000/api`
+- Todos los endpoints esperan `Content-Type: application/json`
 
 ---
 
