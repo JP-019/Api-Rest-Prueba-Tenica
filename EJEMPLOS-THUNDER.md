@@ -11,7 +11,8 @@ Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Clien
 
 **Body (JSON):**
 ```json
-{
+{  
+  "clienteId": 1,
   "nombre": "Juan Pérez",
   "identidad": "123456789"
 }
@@ -22,14 +23,12 @@ Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Clien
 ### GET - Obtener Todos los Clientes
 **URL:** `http://localhost:3000/api/clientes`
 
-**Method:** GET (sin body)
 
 ---
 
 ### GET - Obtener Cliente por ID
 **URL:** `http://localhost:3000/api/clientes/1`
 
-**Method:** GET (sin body)
 
 ---
 
@@ -39,6 +38,7 @@ Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Clien
 **Body (JSON):**
 ```json
 {
+  
   "nombre": "Juan Carlos Pérez",
   "identidad": "987654321"
 }
@@ -55,29 +55,57 @@ Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Clien
 
 ## 📦 PRODUCTOS
 
-### POST - Crear Producto
+### POST - Crear Producto ✅ FUNCIONA
 **URL:** `http://localhost:3000/api/productos`
 
 **Body (JSON):**
 ```json
 {
-  "nombre": "Laptop Dell",
-  "precio": 1200,
-  "exitencia": 5
+  "productoId": "4",
+  "nombre": "Mouse Logitech",
+  "precio": 25,
+  "exitencia": 50
+}
+```
+
+**Respuesta Exitosa (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "productoId": "4",
+    "nombre": "Mouse Logitech",
+    "precio": 25,
+    "exitencia": 50
+  }
 }
 ```
 
 ---
 
-### POST - Crear Otro Producto
+### POST - Crear Otro Producto ✅ FUNCIONA
 **URL:** `http://localhost:3000/api/productos`
 
 **Body (JSON):**
 ```json
 {
-  "nombre": "Mouse Logitech",
-  "precio": 25,
-  "exitencia": 50
+  "productoId": "5",
+  "nombre": "Monitor LG 27\"",
+  "precio": 350,
+  "exitencia": 8
+}
+```
+
+**Respuesta Exitosa (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "productoId": "5",
+    "nombre": "Monitor LG 27\"",
+    "precio": 350,
+    "exitencia": 8
+  }
 }
 ```
 
@@ -173,13 +201,57 @@ Aquí tienes todos los ejemplos JSON listos para copiar y pegar en Thunder Clien
 
 ## 🔗 DETALLES DE ÓRDENES
 
-### POST - Agregar Producto a Orden
-**URL:** `http://localhost:3000/api/ordenes/1/productos/1`
+### POST - Agregar Producto a Orden ✅ FUNCIONA
+**URL:** `http://localhost:3000/api/ordenes/2/productos/2`
 
 **Body (JSON):**
 ```json
 {
   "cantidad": 2
+}
+```
+
+**Respuesta Exitosa (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "detalleOrdenId": "DET-1707387645123-abc123xyz",
+    "ordenId": "2",
+    "productoId": "2",
+    "cantidad": 2,
+    "subtotal": 1600,
+    "impuesto": 256,
+    "total": 1856
+  }
+}
+```
+
+---
+
+### POST - Agregar Otro Producto a Orden ✅ FUNCIONA
+**URL:** `http://localhost:3000/api/ordenes/2/productos/3`
+
+**Body (JSON):**
+```json
+{
+  "cantidad": 1
+}
+```
+
+**Respuesta Exitosa (201):**
+```json
+{
+  "success": true,
+  "data": {
+    "detalleOrdenId": "DET-1707387645456-def456uvw",
+    "ordenId": "2",
+    "productoId": "3",
+    "cantidad": 1,
+    "subtotal": 600,
+    "impuesto": 96,
+    "total": 696
+  }
 }
 ```
 

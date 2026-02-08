@@ -9,30 +9,39 @@
     "total": 2784
   },
   {
-    "detalleOrdenId": "2",
+    "detalleOrdenId": "DET-1770569114628-skcqneyi3",
     "ordenId": "1",
-    "productoId": "2",
-    "cantidad": 3,
-    "subtotal": 75,
-    "impuesto": 12,
-    "total": 87
-  },
-  {
-    "detalleOrdenId": "3",
-    "ordenId": "2",
-    "productoId": "3",
-    "cantidad": 1,
-    "subtotal": 450,
-    "impuesto": 72,
-    "total": 522
-  },
-  {
-    "detalleOrdenId": "4",
-    "ordenId": "2",
     "productoId": "1",
-    "cantidad": 1,
-    "subtotal": 1200,
-    "impuesto": 192,
-    "total": 1392
+    "cantidad": 2,
+    "impuesto": 384,
+    "subtotal": 2400,
+    "total": 2784
+  },
+  {
+    "detalleOrdenId": "DET-1770569141999-2go13mj5x",
+    "ordenId": "2",
+    "productoId": "2",
+    "cantidad": 2,
+    "impuesto": 256,
+    "subtotal": 1600,
+    "total": 1856
+  },
+  {
+    "detalleOrdenId": "DET-1770569196916-2wxf9mlsk",
+    "ordenId": "3",
+    "productoId": "2",
+    "cantidad": 2,
+    "impuesto": 256,
+    "subtotal": 1600,
+    "total": 1856
+  },
+  {
+    "detalleOrdenId": "DET-1770569681262-ndgmbd8uh",
+    "ordenId": "2",
+    "productoId": "2",
+    "cantidad": 10,
+    "impuesto": 1280,
+    "subtotal": 8000,
+    "total": 9280
   }
 ]

@@ -1,12 +1,15 @@
 [{
+  "clienteId": 1,
   "nombre": "Juan Pérez",
   "identidad": "123456789"
 },
 {
+  "clienteId": 2,
   "nombre": "María Gómez",
   "identidad": "987654321"
 },
 {
+  "clienteId": 3,
   "nombre": "Carlos Rodríguez",
   "identidad": "456789123"
 }

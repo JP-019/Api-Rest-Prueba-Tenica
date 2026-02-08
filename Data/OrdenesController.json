@@ -1,7 +1,23 @@
-[{
-  "clienteId": "1",
-  "subtotal": 1200,
-  "impuesto": 192,
-  "total": 1392
-}
+[
+  {
+    "ordenId": "1",
+    "clienteId": "1",
+    "subtotal": 1200,
+    "impuesto": 192,
+    "total": 1392
+  },
+  {
+    "ordenId": "2",
+    "clienteId": "2",
+    "subtotal": 800,
+    "impuesto": 128,
+    "total": 928
+  },
+  {
+    "ordenId": "3",
+    "clienteId": "1",
+    "impuesto": 192,
+    "subtotal": 1200,
+    "total": 1392
+  }
 ]

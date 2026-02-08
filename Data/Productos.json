@@ -1,18 +1,38 @@
-[[{
-  "nombre": "Laptop Dell",
-  "precio": 1200,
-  "exitencia": 5
-},
-{
-  "nombre": "Smartphone Samsung",
-  "precio": 800,
-  "exitencia": 10
-},
-{
-  "nombre": "Tablet Apple",
-  "precio": 600,
-  "exitencia": 7
-}
-
-]
+[
+  {
+    "productoId": "1",
+    "nombre": "Laptop Dell",
+    "precio": 1200,
+    "exitencia": 5
+  },
+  {
+    "productoId": "2",
+    "nombre": "Smartphone Samsung",
+    "precio": 800,
+    "exitencia": 10
+  },
+  {
+    "productoId": "3",
+    "nombre": "Tablet Apple",
+    "precio": 600,
+    "exitencia": 7
+  },
+  {
+    "productoId": "4",
+    "nombre": "Mouse Logitech",
+    "precio": 25,
+    "exitencia": 50
+  },
+  {
+    "productoId": "5",
+    "nombre": "Monitor LG 27\"",
+    "precio": 350,
+    "exitencia": 8
+  },
+  {
+    "productoId": "6",
+    "nombre": "Mouse Logitech",
+    "precio": 25,
+    "exitencia": 50
+  }
 ]
